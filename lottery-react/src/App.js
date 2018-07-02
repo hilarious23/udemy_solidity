@@ -17,6 +17,7 @@ class App extends Component {
     const manager = await lottery.methods.manager().call();
     const players = await lottery.methods.getPlayers().call();
     const balance = await web3.eth.getBalance(lottery.options.address);
+
     this.setState({ manager: manager, players, balance });
   }
 
@@ -24,8 +25,9 @@ class App extends Component {
   onSubmit = async (event) => {
     event.preventDefault();
 
+    //現在のメタマスクアカウントのアドレスを取得. console.log(accounts)でわかる
     const accounts = await web3.eth.getAccounts();
-
+    console.log(accounts);
     this.setState({ message: 'Waiting on transaction success...' });
 
     await lottery.methods.enter().send({
@@ -37,11 +39,14 @@ class App extends Component {
   };
 
   onClick = async (event) => {
+    //現在のメタマスクアカウントのアドレスを取得
     const accounts = await web3.eth.getAccounts();
 
     this.setState({ message: 'Waiting on transaction success...' })
 
     await lottery.methods.pickWinner().send({
+      //specify who is sending in the transaction(not ether).
+      //source account of this transaction
       from: accounts[0]
     });
 
