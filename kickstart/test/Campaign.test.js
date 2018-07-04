@@ -12,7 +12,7 @@ let campaignAddress;
 let campaign;
 
 beforeEach(async () => {
-  //lise of accounts
+  //lise of accounts。ganacheによりテスト用アカウント10個作成される。
   accounts = await web3.eth.getAccounts();
 
   //deploy factory
@@ -39,5 +39,24 @@ describe('Campaigns', () => {
   it('deploys a factory and a campaign', () => {
     assert.ok(factory.options.address);
     assert.ok(campaign.options.address);
+  });
+
+  it('marks caller as the campaign manager', async () => {
+    //whenever we make a public variable inside of our contract a get methods is automatically created
+      //I didn't make a method called manager, but this is automatically created for us because we had
+      //marked the manage variable as being public
+    const manager = await campaign.methods.manager().call();
+    //accounts[0]がmanagerと一致しているか確認
+    assert.equal(accounts[0], manager);
+  });
+
+  it('allows people to contribute money and marks them as approvers', async () => {
+    await campaign.methods.contribute().send({
+      value: '200',
+      from: accounts[1]
+    });
+    const isContributor = await campaign.methods.approvers(accounts[1]).call();
+    //if isContributor is false, test fails
+    assert(isContributor);
   });
 });
