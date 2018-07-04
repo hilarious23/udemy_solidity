@@ -15,7 +15,7 @@ contract CampaignFactory {
 
     //make sure we add a function that returns the entire array of deployedCampaigns
         //view means no date inside the contract is modified by this function
-    function getDeployedCampains() public view returns(address[]) {
+    function getDeployedCampaigns() public view returns(address[]) {
         return deployedCampaigns;
     }
 }
