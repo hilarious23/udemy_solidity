@@ -43,7 +43,6 @@ class CampaignIndex extends Component {
                 floated='right'
                 content="Create Campaign"
                 icon="add circle"
-                //  primary add nice bule style
                 primary
               />
             </a>
