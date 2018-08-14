@@ -25,12 +25,13 @@ class App extends Component {
   onSubmit = async (event) => {
     event.preventDefault();
 
-    //現在のメタマスクアカウントのアドレスを取得. console.log(accounts)でわかる
+    //現在のメタマスクアカウントのアドレスの配列を取得. console.log(accounts)でわかる
     const accounts = await web3.eth.getAccounts();
     console.log(accounts);
     this.setState({ message: 'Waiting on transaction success...' });
 
     await lottery.methods.enter().send({
+      //メタマスクの今選択しているアドレスを指定
       from: accounts[0],
       value: web3.utils.toWei(this.state.value, 'ether')
     });
